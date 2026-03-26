@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Legado Antioqueño | Colección Karate Do</title>
+  <meta name="description" content="Colección editorial de prendas inspiradas en Antioquia y la Liga Antioqueña de Karate Do." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+      background: #f8f7f3;
+      color: #111827;
+    }
+
+    .sans {
+      font-family: "Inter", Arial, Helvetica, sans-serif;
+    }
+
+    .hero-bg {
+      background:
+        linear-gradient(135deg, rgba(22, 101, 52, 0.08), rgba(0, 0, 0, 0.02)),
+        radial-gradient(circle at top left, rgba(34, 197, 94, 0.10), transparent 35%),
+        radial-gradient(circle at bottom right, rgba(22, 101, 52, 0.08), transparent 30%);
+    }
+
+    .mountain-shape::before,
+    .mountain-shape::after {
+      content: "";
+      position: absolute;
+      inset: auto;
+      transform: skewX(-30deg);
+      border-radius: 1rem;
+      opacity: 0.12;
+      pointer-events: none;
+    }
+
+    .mountain-shape::before {
+      width: 180px;
+      height: 180px;
+      right: 8%;
+      top: 10%;
+      background: linear-gradient(180deg, #166534, #22c55e);
+    }
+
+    .mountain-shape::after {
+      width: 220px;
+      height: 220px;
+      left: -40px;
+      bottom: -20px;
+      background: linear-gradient(180deg, #111827, #166534);
+    }
+
+    .section-label {
+      letter-spacing: 0.25em;
+    }
+
+    .tagline {
+      letter-spacing: 0.28em;
+    }
+
+    .fade-up {
+      animation: fadeUp 0.8s ease both;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(18px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .carousel-shell {
+      position: relative;
+      overflow: hidden;
+      border-radius: 1.5rem;
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+      will-change: transform;
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+    }
+
+    .product-frame {
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    .product-frame img {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: contain;
+      background: white;
+      display: block;
+    }
+
+    .pro-card {
+      opacity: 0;
+      transform: translateY(16px) scale(0.985);
+      animation: cardIn 0.7s ease forwards;
+    }
+
+    .pro-card:nth-child(2) {
+      animation-delay: 0.08s;
+    }
+
+    @keyframes cardIn {
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .carousel-meta {
+      background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.82));
+      border: 1px solid rgba(0,0,0,0.05);
+      border-radius: 1.25rem;
+      padding: 1.75rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+
+    .carousel-btn {
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(0,0,0,0.08);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.10);
+      backdrop-filter: blur(8px);
+      transition: all 0.25s ease;
+    }
+
+    .carousel-btn:hover {
+      transform: translateY(-50%) scale(1.05);
+      background: white;
+    }
+
+    .carousel-dots {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.65rem;
+      padding: 1.25rem 0 0;
+    }
+
+    .carousel-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      border: none;
+      background: rgba(22, 101, 52, 0.22);
+      transition: all 0.28s ease;
+      cursor: pointer;
+    }
+
+    .carousel-dot.active {
+      width: 28px;
+      background: #166534;
+    }
+
+    .swipe-hint {
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgb(22 101 52 / 0.8);
+    }
+
+    .guide-card {
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+
+    .guide-card img {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      object-fit: contain;
+      background: white;
+      display: block;
+    }
+
+    .placeholder-box {
+      aspect-ratio: 4 / 5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1rem;
+      background: linear-gradient(135deg, #0f172a, #166534);
+      color: white;
+      font-family: "Inter", Arial, sans-serif;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 640px) {
+      .carousel-btn {
+        width: 42px;
+        height: 42px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <header id="top" class="fixed top-0 left-0 w-full z-50 bg-[#f8f7f3]/90 backdrop-blur border-b border-black/5">
+    <div class="max-w-7xl mx-auto px-5 md:px-8">
+      <div class="flex items-center justify-between h-20">
+        <a href="#top" class="flex items-center gap-3">
+          <span class="text-xl">👕</span>
+          <div>
+            <p class="text-xl md:text-2xl font-semibold tracking-tight">LEGADO ANTIOQUEÑO</p>
+          </div>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-8 sans text-sm">
+          <a href="#coleccion" class="hover:text-green-800 transition">Colección</a>
+          <a href="#guia" class="hover:text-green-800 transition">Guía</a>
+          <a href="#detalles" class="hover:text-green-800 transition">Detalles</a>
+          <a href="#reserva" class="bg-green-800 text-white px-5 py-3 rounded-sm hover:bg-green-900 transition">Reserva Ahora</a>
+        </nav>
+
+        <button id="menuBtn" class="md:hidden sans text-sm border border-black/10 px-4 py-2 rounded">
+          Menú
+        </button>
+      </div>
+
+      <div id="mobileMenu" class="hidden md:hidden pb-5 sans">
+        <div class="flex flex-col gap-3">
+          <a href="#coleccion" class="py-2">Colección</a>
+          <a href="#guia" class="py-2">Guía</a>
+          <a href="#detalles" class="py-2">Detalles</a>
+          <a href="#reserva" class="bg-green-800 text-white px-4 py-3 rounded-sm text-center">Reserva Ahora</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="pt-36 pb-24 md:pb-32 hero-bg relative overflow-hidden mountain-shape">
+    <div class="max-w-7xl mx-auto px-5 md:px-8 grid lg:grid-cols-2 gap-14 items-center">
+      <div class="fade-up">
+        <p class="section-label sans text-xs uppercase text-green-800 mb-6 border border-green-800/20 inline-block px-4 py-2 bg-green-900/5">
+          Edición completa de la Liga Karate Do Antioquia
+        </p>
+
+        <h1 class="text-5xl md:text-7xl leading-tight text-slate-800">
+          Raíces que <span class="text-green-700 italic">Visten</span>
+        </h1>
+
+        <p class="mt-8 text-lg md:text-xl text-slate-600 max-w-2xl leading-relaxed sans">
+          Una colección creativa de variedad de prendas que rinde homenaje a los patrones tradicionales de Antioquia,
+          integrando montañas, la garra del tigre y una estética deportiva inspirada en el karate.
+          Diseño con identidad, fuerza visual y proyección contemporánea.
+        </p>
+
+        <div class="mt-10 flex flex-col sm:flex-row gap-4 sans">
+          <a href="#coleccion" class="bg-slate-800 text-white px-8 py-4 rounded-sm hover:bg-black transition text-center">
+            Explorar la Colección
+          </a>
+          <a href="#reserva" class="border border-green-800 text-green-800 px-8 py-4 rounded-sm hover:bg-green-800 hover:text-white transition text-center">
+            Reservar Ahora
+          </a>
+        </div>
+      </div>
+
+      <div class="relative fade-up">
+        <div class="bg-white/80 backdrop-blur rounded-2xl p-6 md:p-8 border border-black/5 shadow-xl">
+          <div class="aspect-[4/3] rounded-xl overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-green-900 flex items-center justify-center">
+            <div class="text-center px-8">
+              <p class="sans uppercase text-green-300 text-xs tagline mb-4">Colección</p>
+              <h2 class="text-4xl md:text-6xl text-white leading-tight">Liga Antioqueña Karate Do</h2>
+              <p class="mt-4 text-white/80 sans text-base md:text-lg">
+                Estética Antioqueña, legado cultural y precisión deportiva.
+              </p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-4 mt-4 sans text-sm">
+            <div class="bg-white rounded-xl border border-black/5 p-4">
+              <p class="text-slate-400">Inspiración</p>
+              <p class="font-semibold mt-1">Antioquia</p>
+            </div>
+            <div class="bg-white rounded-xl border border-black/5 p-4">
+              <p class="text-slate-400">Karate Do</p>
+              <p class="font-semibold mt-1">Identidad</p>
+            </div>
+            <div class="bg-white rounded-xl border border-black/5 p-4">
+              <p class="text-slate-400">Estética</p>
+              <p class="font-semibold mt-1">Premium</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Narrativa -->
+  <section class="py-24">
+    <div class="max-w-5xl mx-auto px-5 md:px-8 text-center">
+      <p class="section-label sans text-sm uppercase text-green-800 mb-5">La Colección</p>
+      <h2 class="text-5xl md:text-7xl text-slate-800">
+        Diseño <span class="text-green-700 italic">Vivo</span>
+      </h2>
+      <p class="mt-8 text-lg text-slate-600 leading-relaxed sans max-w-4xl mx-auto">
+        Cada pieza es única, diseñada y creada con líneas proyectadas hacia el futuro antioqueño,
+        buscando seguir dando frutos y evolución constante. La propuesta se complementa con cortes modernos,
+        inspirados en la tradición, que aportan dinamismo, identidad y carácter a cada prenda.
+      </p>
+    </div>
+  </section>
+
+  <!-- Tren superior -->
+  <section id="coleccion" class="py-24 bg-white border-y border-black/5">
+    <div class="max-w-7xl mx-auto px-5 md:px-8">
+      <div class="max-w-3xl mb-10">
+        <p class="section-label sans text-xs uppercase text-green-800 mb-3">Tren superior</p>
+        <h3 class="text-3xl md:text-5xl">Frente y espalda de cada pieza</h3>
+        <p class="sans text-slate-600 mt-5 leading-relaxed">
+          La colección se presenta primero mostrando el frente y la espalda de cada prenda,
+          para que el diseño completo se entienda desde el inicio.
+        </p>
+      </div>
+
+      <div id="carouselShell" class="carousel-shell relative border border-black/5 bg-[#f8f7f3] p-4 md:p-6">
+        <div id="mainCarousel" class="carousel-track">
+
+          <!-- CAMISETA NEGRA -->
+          <div class="carousel-slide p-4 md:p-6">
+            <div class="grid lg:grid-cols-2 gap-8 items-center">
+              <div class="grid sm:grid-cols-2 gap-6">
+                <div class="product-frame pro-card">
+                  <img src="TRENSUPERIOR/CamisetaNegraFrente.png" alt="Camiseta negra frente" />
+                </div>
+                <div class="product-frame pro-card">
+                  <img src="TRENSUPERIOR/CamisetaNegraAtras.png" alt="Camiseta negra espalda" />
+                </div>
+              </div>
+              <div class="carousel-meta">
+                <p class="sans uppercase text-green-800 text-xs tracking-[0.25em]">Camiseta negra</p>
+                <h4 class="text-4xl mt-3">Camiseta 3D</h4>
+                <p class="sans text-slate-600 mt-5 leading-relaxed">
+                  Diseño base de la colección con diagonales inspiradas en montañas
+                  y una composición conectada con la identidad del campo antioqueño.
+                </p>
+                <p class="sans mt-6 swipe-hint">Desliza o usa las flechas</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- CHAQUETA NEGRA -->
+          <div class="carousel-slide p-4 md:p-6">
+            <div class="grid lg:grid-cols-2 gap-8 items-center">
+              <div class="grid sm:grid-cols-2 gap-6">
+                <div class="product-frame pro-card">
+                  <img src="TRENSUPERIOR/ChaquetaNegraFrente.png" alt="Chaqueta negra frente" />
+                </div>
+                <div class="product-frame pro-card">
+                  <img src="TRENSUPERIOR/ChaquetaNegraAtras.png" alt="Chaqueta negra espalda" />
+                </div>
+              </div>
+              <div class="carousel-meta">
+                <p class="sans uppercase text-green-800 text-xs tracking-[0.25em]">Chaqueta negra</p>
+                <h4 class="text-4xl mt-3">Chaqueta negra</h4>
+                <p class="sans text-slate-600 mt-5 leading-relaxed">
+                  Silueta térmica y deportiva que amplía el lenguaje gráfico de la colección,
+                  con mayor fuerza visual y presencia en exteriores.
+                </p>
+                <p class="sans mt-6 swipe-hint">Desliza o usa las flechas</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- CAMISETA BLANCA -->
+          <div class="carousel-slide p-4 md:p-6">
+            <div class="grid lg:grid-cols-2 gap-8 items-center">
+              <div class="grid sm:grid-cols-2 gap-6">
+                <div class="product-frame pro-card">
+                  <img src="TRENSUPERIOR/CamisaBlancaFrente.png" alt="Camiseta blanca frente" />
+                </div>
+                <div class="product-frame pro-card">
+                  <img src="TRENSUPERIOR/CamisaBlancaAtras.png" alt="Camiseta blanca espalda" />
+                </div>
+              </div>
+              <div class="carousel-meta">
+                <p class="sans uppercase text-green-800 text-xs tracking-[0.25em]">Camiseta blanca</p>
+                <h4 class="text-4xl mt-3">Camiseta blanca</h4>
+                <p class="sans text-slate-600 mt-5 leading-relaxed">
+                  Interpretación luminosa de la colección manteniendo la misma identidad visual
+                  con una sensación más fresca y limpia.
+                </p>
+                <p class="sans mt-6 swipe-hint">Desliza o usa las flechas</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- CHAQUETA BLANCA -->
+          <div class="carousel-slide p-4 md:p-6">
+            <div class="grid lg:grid-cols-2 gap-8 items-center">
+              <div class="grid sm:grid-cols-2 gap-6">
+                <div class="product-frame pro-card">
+                  <img src="TRENSUPERIOR/ChaquetaBlancaFrente.png" alt="Chaqueta blanca frente" />
+                </div>
+                <div class="product-frame pro-card">
+                  <img src="TRENSUPERIOR/ChaquetaBlancaAtras.png" alt="Chaqueta blanca espalda" />
+                </div>
+              </div>
+              <div class="carousel-meta">
+                <p class="sans uppercase text-green-800 text-xs tracking-[0.25em]">Chaqueta blanca</p>
+                <h4 class="text-4xl mt-3">Chaqueta blanca</h4>
+                <p class="sans text-slate-600 mt-5 leading-relaxed">
+                  Diseño más ilustrado a figuras geográficas y geométricas,
+                  con una estética más limpia, técnica y visualmente llamativa.
+                </p>
+                <p class="sans mt-6 swipe-hint">Desliza o usa las flechas</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <button id="prevMain" class="carousel-btn absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full text-xl z-10">‹</button>
+        <button id="nextMain" class="carousel-btn absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full text-xl z-10">›</button>
+      </div>
+
+      <div id="carouselDots" class="carousel-dots"></div>
+    </div>
+  </section>
+
+  <!-- Tren inferior -->
+  <section class="py-24">
+    <div class="max-w-7xl mx-auto px-5 md:px-8">
+      <div class="max-w-3xl mb-10">
+        <p class="section-label sans text-xs uppercase text-green-800 mb-3">Tren inferior</p>
+        <h3 class="text-3xl md:text-5xl">Piezas Inferiores</h3>
+        <p class="sans text-slate-600 mt-5 leading-relaxed">
+          Las prendas inferiores de la colección muestran diseños específicos para sudadera,
+          pantaloneta femenina y pantaloneta masculina, con identidad visual coherente.
+        </p>
+      </div>
+
+      <div id="bottomCarouselShell" class="carousel-shell relative border border-black/5 bg-[#f8f7f3] p-4 md:p-6">
+        <div id="bottomCarousel" class="carousel-track">
+
+          <!-- SUDADERA -->
+          <div class="carousel-slide p-4 md:p-6">
+            <div class="grid lg:grid-cols-2 gap-8 items-center">
+              <div class="grid sm:grid-cols-2 gap-6">
+                <div class="product-frame pro-card">
+                  <img src="TRENINFERIOR/sudadera.png" alt="Sudadera frente" />
+                </div>
+                <div class="product-frame pro-card">
+                  <img src="TRENINFERIOR/SudaderaAtras.jpg" alt="Sudadera espalda" />
+                </div>
+              </div>
+              <div class="carousel-meta">
+                <p class="sans uppercase text-green-800 text-xs tracking-[0.25em]">Sudadera</p>
+                <h4 class="text-4xl mt-3">Sudadera</h4>
+                <p class="sans text-slate-600 mt-5 leading-relaxed">
+                  Diseño amplio tipo baggy, con caída más suelta y ajuste regulable.
+                  Puede llevar cordón funcional o mantenerse más libre, buscando comodidad,
+                  estética deportiva y una silueta moderna.
+                </p>
+                <p class="sans mt-6 swipe-hint">Desliza o usa las flechas</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- PANTALONETA MUJER -->
+          <div class="carousel-slide p-4 md:p-6">
+            <div class="grid lg:grid-cols-2 gap-8 items-center">
+              <div class="grid sm:grid-cols-2 gap-6">
+                <div class="product-frame pro-card">
+                  <img src="TRENINFERIOR/PantalonetaMujerFrente.jpeg" alt="Pantaloneta mujer frente" />
+                </div>
+                <div class="product-frame pro-card">
+                  <img src="TRENINFERIOR/PantalonetaMujerAtras.jpeg" alt="Pantaloneta mujer espalda" />
+                </div>
+              </div>
+              <div class="carousel-meta">
+                <p class="sans uppercase text-green-800 text-xs tracking-[0.25em]">Pantaloneta mujer</p>
+                <h4 class="text-4xl mt-3">Pantaloneta Mujer</h4>
+                <p class="sans text-slate-600 mt-5 leading-relaxed">
+                  Diseño deportivo con carácter, pensado para entrenamientos, viajes a nacionales
+                  y climas cálidos, manteniendo una estética coherente con la sudadera.
+                </p>
+                <p class="sans mt-6 swipe-hint">Desliza o usa las flechas</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- PANTALONETA HOMBRE -->
+          <div class="carousel-slide p-4 md:p-6">
+            <div class="grid lg:grid-cols-2 gap-8 items-center">
+              <div class="grid sm:grid-cols-2 gap-6">
+                <div class="product-frame pro-card">
+                  <img src="TRENINFERIOR/PantalonetaHombreFrente.jpeg" alt="Pantaloneta hombre frente" />
+                </div>
+                <div class="product-frame pro-card">
+                  <img src="TRENINFERIOR/PantalonetaHombreAtras.jpeg" alt="Pantaloneta hombre espalda" />
+                </div>
+              </div>
+              <div class="carousel-meta">
+                <p class="sans uppercase text-green-800 text-xs tracking-[0.25em]">Pantaloneta hombre</p>
+                <h4 class="text-4xl mt-3">Pantaloneta Hombre</h4>
+                <p class="sans text-slate-600 mt-5 leading-relaxed">
+                  Propuesta funcional y deportiva, con largo adecuado, identidad visual fuerte
+                  y comodidad para entrenamientos físicos o desplazamientos deportivos.
+                </p>
+                <p class="sans mt-6 swipe-hint">Desliza o usa las flechas</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <button id="prevBottom" class="carousel-btn absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full text-xl z-10">‹</button>
+        <button id="nextBottom" class="carousel-btn absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full text-xl z-10">›</button>
+      </div>
+
+      <div id="bottomCarouselDots" class="carousel-dots"></div>
+    </div>
+  </section>
+
+  <!-- Guía -->
+  <section id="guia" class="py-24 bg-white border-y border-black/5">
+    <div class="max-w-7xl mx-auto px-5 md:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-14">
+        <p class="section-label sans text-xs uppercase text-green-800 mb-3">Medidas y estilos</p>
+        <h3 class="text-3xl md:text-5xl">Guía de Prendas</h3>
+        <p class="sans text-slate-600 mt-5 leading-relaxed">
+          Explora prendas diseñadas específicamente para hombres y mujeres.
+          Esta sección muestra cómo se proyecta visualmente la colección en ambos cuerpos.
+        </p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-10">
+        <!-- HOMBRE -->
+        <div class="bg-[#f8f7f3] rounded-3xl border border-black/5 p-8">
+          <h4 class="text-3xl mb-8">HOMBRE</h4>
+
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div class="guide-card">
+              <img src="GUIA/HOMBRE/CamisaNegraHombre.png" alt="Camiseta negra hombre" />
+            </div>
+            <div class="guide-card">
+              <img src="GUIA/HOMBRE/CamisaBlancaHombre.png" alt="Camiseta blanca hombre" />
+            </div>
+            <div class="guide-card">
+              <img src="GUIA/HOMBRE/ChaquetaNegraHombre.png" alt="Chaqueta negra hombre" />
+            </div>
+            <div class="guide-card">
+              <img src="GUIA/HOMBRE/ChaquetaBlancaHombre.png" alt="Chaqueta blanca hombre" />
+            </div>
+            <div class="guide-card">
+              <img src="GUIA/HOMBRE/PantalonetaHombre.png" alt="Pantaloneta hombre" />
+            </div>
+            <div class="guide-card">
+               <img src="GUIA/HOMBRE/SudaderaHombre.png" alt="Sudadera hombre" />
+            </div>
+          </div>
+        </div>
+
+        <!-- MUJER -->
+        <div class="bg-[#f8f7f3] rounded-3xl border border-black/5 p-8">
+          <h4 class="text-3xl mb-8">MUJER</h4>
+
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div class="guide-card">
+              <img src="GUIA/MUJER/CamisaNegraMujer.jpeg" alt="Camiseta negra mujer" />
+            </div>
+            <div class="guide-card">
+              <img src="GUIA/MUJER/CamisaBlancaMujer.jpeg" alt="Camiseta blanca mujer" />
+            </div>
+            <div class="guide-card">
+              <img src="GUIA/MUJER/ChaquetaNegraMujer.png" alt="Chaqueta negra mujer" />
+            </div>
+            <div class="guide-card">
+              <img src="GUIA/MUJER/ChaquetaMujerBlanca.jpeg" alt="Chaqueta blanca mujer" />
+            </div>
+            <div class="guide-card">
+              <img src="GUIA/MUJER/SudaderaMujer.png" alt="Sudadera mujer" />
+            </div>
+            <div class="guide-card">
+               <img src="GUIA/MUJER/PantalonetaMujer.png" alt="Pantaloneta mujer" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- La esencia -->
+  <section id="detalles" class="py-24">
+    <div class="max-w-7xl mx-auto px-5 md:px-8">
+      <div class="rounded-3xl overflow-hidden bg-gradient-to-br from-slate-950 via-black to-slate-900 text-white">
+        <div class="p-8 md:p-14">
+          <p class="section-label sans text-xs uppercase text-green-400 mb-4">La esencia</p>
+
+          <div class="grid lg:grid-cols-2 gap-12 items-start">
+            <div>
+              <h3 class="text-4xl md:text-6xl leading-tight">
+                Diseño y Rediseño en la <br />
+                <span class="text-green-400 italic">Liga Antioqueña Karate Do</span>
+              </h3>
+
+              <p class="sans text-white/75 mt-8 leading-relaxed max-w-xl">
+                Esta propuesta representa una intersección entre disciplina, territorio e identidad.
+                La colección no solo comunica la herencia, precisión, energía y evolución visual.
+                Todo para una escena que se realiza en Medellín para demostrar y destacar nuestros
+                colores antioqueños y demostrar que somos una delegación muy fuerte y muy unida.
+              </p>
+            </div>
+
+            <div class="grid gap-5 sans">
+              <div class="border border-white/10 rounded-2xl p-6">
+                <h4 class="text-green-400 text-lg font-semibold">Motivos de prendas</h4>
+                <p class="text-white/70 mt-3 leading-relaxed">
+                  Composiciones inspiradas en montañas de las camisas, diagonales activas y símbolos
+                  gráficos que invocan fuerza, mostrando el animal representativo del karate do,
+                  el camino de la mano vacía y el desplazamiento, obteniendo un origen simbólico en Antioquia.
+                </p>
+              </div>
+
+              <div class="border border-white/10 rounded-2xl p-6">
+                <h4 class="text-green-400 text-lg font-semibold">Herencia cultural</h4>
+                <p class="text-white/70 mt-3 leading-relaxed">
+                  Referencias reinterpretadas desde una mirada deportiva, limpia y contemporánea,
+                  conectadas con Antioquia, sus montañas y sus relieves, obteniendo un buen diseño
+                  y una demostración visual de lo que representa Antioquia.
+                </p>
+              </div>
+
+              <div class="border border-white/10 rounded-2xl p-6">
+                <h4 class="text-green-400 text-lg font-semibold">Caracteres</h4>
+                <p class="text-white/70 mt-3 leading-relaxed">
+                  Cada prenda integra un sentido de región y una fuerte presencia de identidad colectiva,
+                  unión entre nosotros los paisas y también entre deporte, donde podemos generar
+                  mucha comunicación e identidad.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reserva -->
+  <section id="reserva" class="py-24 bg-gradient-to-br from-green-50 via-white to-stone-50">
+    <div class="max-w-5xl mx-auto px-5 md:px-8 text-center">
+      <p class="section-label sans text-xs uppercase text-green-800 mb-4">Reserva final</p>
+      <h3 class="text-4xl md:text-6xl">
+        Asegura tu <span class="text-green-700 italic">Edición</span>
+      </h3>
+
+      <p class="sans text-slate-600 mt-6 max-w-3xl mx-auto leading-relaxed">
+        Elige un buen diseño para Antioquia, para nuestros deportistas
+        y para demostrar que somos los mejores.
+      </p>
+
+      <div class="mt-10 max-w-2xl mx-auto bg-white border border-black/5 rounded-3xl p-8 shadow-sm">
+        <div class="space-y-5">
+          <div>
+            <p class="sans text-sm uppercase tracking-[0.2em] text-slate-400">Teléfono</p>
+            <p class="text-2xl md:text-3xl text-green-800 mt-2">304-3590-411</p>
+          </div>
+
+          <div>
+            <p class="sans text-sm uppercase tracking-[0.2em] text-slate-400">Correo</p>
+            <p class="text-xl md:text-2xl text-slate-800 mt-2 break-all">yuranylapro@gmail.com</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-black/5 bg-[#f8f7f3]">
+    <div class="max-w-7xl mx-auto px-5 md:px-8 py-10 flex flex-col md:flex-row gap-6 md:items-center md:justify-between">
+      <div>
+        <p class="text-2xl">LEGADO ANTIOQUEÑO</p>
+      </div>
+
+      <div class="sans text-sm text-slate-500 flex flex-wrap gap-5">
+        <a href="#top">Inicio</a>
+        <a href="#coleccion">Colección</a>
+        <a href="#guia">Guía</a>
+        <a href="#detalles">Detalles</a>
+        <a href="#reserva">Contacto</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const menuBtn = document.getElementById("menuBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+
+    menuBtn.addEventListener("click", () => {
+      mobileMenu.classList.toggle("hidden");
+    });
+
+    const mainCarousel = document.getElementById("mainCarousel");
+    const prevMain = document.getElementById("prevMain");
+    const nextMain = document.getElementById("nextMain");
+    const carouselShell = document.getElementById("carouselShell");
+    const carouselDots = document.getElementById("carouselDots");
+
+    let mainIndex = 0;
+    const mainSlides = mainCarousel.children.length;
+    let autoplay;
+    let startX = 0;
+    let endX = 0;
+
+    function updateMainCarousel() {
+      mainCarousel.style.transform = `translateX(-${mainIndex * 100}%)`;
+
+      const dots = document.querySelectorAll(".carousel-dot");
+      dots.forEach((dot, index) => {
+        dot.classList.toggle("active", index === mainIndex);
+      });
+
+      const cards = mainCarousel.children[mainIndex].querySelectorAll(".pro-card");
+      cards.forEach((card, i) => {
+        card.style.animation = "none";
+        card.offsetHeight;
+        card.style.animation = `cardIn 0.7s ease forwards`;
+        card.style.animationDelay = `${i * 0.08}s`;
+      });
+    }
+
+    function nextSlide() {
+      mainIndex = (mainIndex + 1) % mainSlides;
+      updateMainCarousel();
+    }
+
+    function prevSlide() {
+      mainIndex = (mainIndex - 1 + mainSlides) % mainSlides;
+      updateMainCarousel();
+    }
+
+    function startAutoplay() {
+      stopAutoplay();
+      autoplay = setInterval(() => {
+        nextSlide();
+      }, 4500);
+    }
+
+    function stopAutoplay() {
+      clearInterval(autoplay);
+    }
+
+    function buildDots() {
+      carouselDots.innerHTML = "";
+      for (let i = 0; i < mainSlides; i++) {
+        const dot = document.createElement("button");
+        dot.className = "carousel-dot" + (i === 0 ? " active" : "");
+        dot.setAttribute("aria-label", `Ir al slide ${i + 1}`);
+        dot.addEventListener("click", () => {
+          mainIndex = i;
+          updateMainCarousel();
+          startAutoplay();
+        });
+        carouselDots.appendChild(dot);
+      }
+    }
+
+    nextMain.addEventListener("click", () => {
+      nextSlide();
+      startAutoplay();
+    });
+
+    prevMain.addEventListener("click", () => {
+      prevSlide();
+      startAutoplay();
+    });
+
+    carouselShell.addEventListener("mouseenter", stopAutoplay);
+    carouselShell.addEventListener("mouseleave", startAutoplay);
+
+    carouselShell.addEventListener("touchstart", (e) => {
+      startX = e.changedTouches[0].clientX;
+      stopAutoplay();
+    }, { passive: true });
+
+    carouselShell.addEventListener("touchend", (e) => {
+      endX = e.changedTouches[0].clientX;
+      const diff = startX - endX;
+
+      if (diff > 50) {
+        nextSlide();
+      } else if (diff < -50) {
+        prevSlide();
+      }
+
+      startAutoplay();
+    }, { passive: true });
+
+    buildDots();
+    updateMainCarousel();
+    startAutoplay();
+
+    // Bottom Carousel
+    const bottomCarousel = document.getElementById("bottomCarousel");
+    const prevBottom = document.getElementById("prevBottom");
+    const nextBottom = document.getElementById("nextBottom");
+    const bottomCarouselShell = document.getElementById("bottomCarouselShell");
+    const bottomCarouselDots = document.getElementById("bottomCarouselDots");
+
+    let bottomIndex = 0;
+    const bottomSlides = bottomCarousel.children.length;
+    let bottomAutoplay;
+    let bottomStartX = 0;
+    let bottomEndX = 0;
+
+    function updateBottomCarousel() {
+      bottomCarousel.style.transform = `translateX(-${bottomIndex * 100}%)`;
+
+      const dots = bottomCarouselDots.querySelectorAll(".carousel-dot");
+      dots.forEach((dot, index) => {
+        dot.classList.toggle("active", index === bottomIndex);
+      });
+
+      const cards = bottomCarousel.children[bottomIndex].querySelectorAll(".pro-card");
+      cards.forEach((card, i) => {
+        card.style.animation = "none";
+        card.offsetHeight;
+        card.style.animation = `cardIn 0.7s ease forwards`;
+        card.style.animationDelay = `${i * 0.08}s`;
+      });
+    }
+
+    function nextBottomSlide() {
+      bottomIndex = (bottomIndex + 1) % bottomSlides;
+      updateBottomCarousel();
+    }
+
+    function prevBottomSlide() {
+      bottomIndex = (bottomIndex - 1 + bottomSlides) % bottomSlides;
+      updateBottomCarousel();
+    }
+
+    function startBottomAutoplay() {
+      stopBottomAutoplay();
+      bottomAutoplay = setInterval(() => {
+        nextBottomSlide();
+      }, 4500);
+    }
+
+    function stopBottomAutoplay() {
+      clearInterval(bottomAutoplay);
+    }
+
+    function buildBottomDots() {
+      bottomCarouselDots.innerHTML = "";
+      for (let i = 0; i < bottomSlides; i++) {
+        const dot = document.createElement("button");
+        dot.className = "carousel-dot" + (i === 0 ? " active" : "");
+        dot.setAttribute("aria-label", `Ir al slide ${i + 1}`);
+        dot.addEventListener("click", () => {
+          bottomIndex = i;
+          updateBottomCarousel();
+          startBottomAutoplay();
+        });
+        bottomCarouselDots.appendChild(dot);
+      }
+    }
+
+    nextBottom.addEventListener("click", () => {
+      nextBottomSlide();
+      startBottomAutoplay();
+    });
+
+    prevBottom.addEventListener("click", () => {
+      prevBottomSlide();
+      startBottomAutoplay();
+    });
+
+    bottomCarouselShell.addEventListener("mouseenter", stopBottomAutoplay);
+    bottomCarouselShell.addEventListener("mouseleave", startBottomAutoplay);
+
+    bottomCarouselShell.addEventListener("touchstart", (e) => {
+      bottomStartX = e.changedTouches[0].clientX;
+      stopBottomAutoplay();
+    }, { passive: true });
+
+    bottomCarouselShell.addEventListener("touchend", (e) => {
+      bottomEndX = e.changedTouches[0].clientX;
+      const diff = bottomStartX - bottomEndX;
+
+      if (diff > 50) {
+        nextBottomSlide();
+      } else if (diff < -50) {
+        prevBottomSlide();
+      }
+
+      startBottomAutoplay();
+    }, { passive: true });
+
+    buildBottomDots();
+    updateBottomCarousel();
+    startBottomAutoplay();
+  </script>
+</body>
+</html>
